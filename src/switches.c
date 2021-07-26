@@ -1,9 +1,10 @@
 #include <msp430.h>
 #include "switches.h"
 #include "led.h"
+#include "headers.h"
 
 char s1, s2, s3, s4, switch_state_changed; /* effectively boolean */
-char button_state;
+char button;
 static char 
 switch_update_interrupt_sense()
 {
@@ -34,17 +35,21 @@ switch_interrupt_handler()
   s4 = (p2val & SW4) ? 0 : 1;
 
   if(s1){
-  button_state = 1;
- }
+    button = 0;
+  }
   else if(s2){
-   button_state = 2;
-
- }
+    button = 1;
+  }
   else if(s3){
-   button_state = 3;
- }
+    button = 2;
+  }
   else if(s4){
-   button_state = 4;
- }
- 
+    button = 3;
+  }
+  
+  
+    
+  change_state(button);
 }
+ 
+

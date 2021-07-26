@@ -3,6 +3,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "switches.h"
+#include "headers.h"
 
 // WARNING: LCD DISPLAY USES P1.0.  Do not touch!!! 
 
@@ -10,6 +11,7 @@
 
 short drawPos[2] = {10,10}, controlPos[2] = {10,10};
 short velocity[2] = {3,8}, limits[2] = {screenWidth-35, screenHeight-8};
+char signed state = 4;
 
 short redrawScreen = 1;
 u_int fontFgColor = COLOR_GREEN;
@@ -21,18 +23,9 @@ void wdt_c_handler()
   secCount ++;
   if (secCount == 30) {		/* 4/sec */
     secCount = 0;
-    for (char axis = 0; axis < 2; axis++) {
-      short newVal = controlPos[axis] + velocity[axis];
-      if (newVal < 10 || newVal > limits[axis])
-	velocity[axis] = -velocity[axis];
-      else
-	controlPos[axis] = newVal;
-    }
-    fontFgColor = (fontFgColor == COLOR_GREEN) ? COLOR_BLACK : COLOR_GREEN;
     redrawScreen = 1;
   }
 }
-  
 
 void main()
 {
@@ -51,23 +44,34 @@ void main()
     if (redrawScreen) {
       redrawScreen = 0;
       and_sr(~8);
-      if(s1){
-	drawString5x7(20, 20, "sup", COLOR_RED, COLOR_BLUE);
-    }
-    else if(s2){
-      drawString5x7(20, 20, "sup", COLOR_BLUE, COLOR_BLUE);
-    }
-    else if(s3){
-      fillRectangle(30, 30, 60, 60, COLOR_RED);
-    }
-    else if(s4){
-      clearScreen(COLOR_BLUE);
-    }
+      if(state != 4){
+	P1OUT |= LED;
+	switch(state){
+	case 0:
+	  drawString5x7(35, 30, "hello", COLOR_GREEN, COLOR_BLUE);
+	  state = 4; // returns to state 3 which turns of cpu
+	  break;
+	case 1:
+	  drawString5x7(35, 40, "world", COLOR_GREEN, COLOR_BLUE);
+	  state = 4;
+	  break;
+	case 2:
+	  fillRectangle(50, 50, 60 ,60, COLOR_GREEN);
+	  state = 4;
+	  break;
+	case 3:
+	  clearScreen(COLOR_BLUE);
+	  state = 4;
+	  break;
+	}
+      }
+      else
+	{
+	  P1OUT &= ~LED;
+	}
       or_sr(8);			/* enable interrupts */
     }
-    P1OUT &= ~LED;	/* led off */
-    or_sr(0x10);	/**< CPU OFF */
-    P1OUT |= LED;	/* led on */
+    or_sr(0x10);
   }
 }
 
