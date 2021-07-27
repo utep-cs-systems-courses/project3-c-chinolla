@@ -11,6 +11,8 @@
 
 short drawPos[2] = {10,10}, controlPos[2] = {10,10};
 short velocity[2] = {3,8}, limits[2] = {screenWidth-35, screenHeight-8};
+int x = 50;
+int y = 50;
 char signed state = 4;
 
 short redrawScreen = 1;
@@ -52,11 +54,15 @@ void main()
 	  state = 4; // returns to state 3 which turns of cpu
 	  break;
 	case 1:
-	  drawString5x7(35, 40, "world", COLOR_GREEN, COLOR_BLUE);
+	  clearScreen(COLOR_BLUE);
+	  fillRectangle(x, y, 60, 60, COLOR_GREEN);
+	  x = x - 4;
 	  state = 4;
 	  break;
 	case 2:
-	  fillRectangle(50, 50, 60 ,60, COLOR_GREEN);
+	  fillRectangle(x - 4, y, 60, 60, COLOR_BLUE);
+	  fillRectangle(x, y, 60 ,60, COLOR_GREEN);
+	  x = x + 4;
 	  state = 4;
 	  break;
 	case 3:
