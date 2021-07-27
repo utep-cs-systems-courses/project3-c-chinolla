@@ -60,7 +60,7 @@ void main()
 	  state = 4;
 	  break;
 	case 2:
-	  fillRectangle(x - 4, y, 60, 60, COLOR_BLUE);
+	  clearScreen(COLOR_BLUE);
 	  fillRectangle(x, y, 60 ,60, COLOR_GREEN);
 	  x = x + 4;
 	  state = 4;
