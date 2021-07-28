@@ -4,6 +4,7 @@
 #include "lcddraw.h"
 #include "switches.h"
 #include "headers.h"
+#include "buzzer.h"
 
 // WARNING: LCD DISPLAY USES P1.0.  Do not touch!!! 
 
@@ -39,7 +40,7 @@ void main()
   P1OUT |= LED;
   configureClocks();
   lcd_init();
-  
+  buzzer_init();
   enableWDTInterrupts();      /**< enable periodic interrupt */
   or_sr(0x8);	              /**< GIE (enable interrupts) */
 
@@ -53,23 +54,26 @@ void main()
 	P1OUT |= LED;
 	switch(state){
 	case 0:
-	  drawString5x7(35, 30, "hello", COLOR_GREEN, COLOR_BLUE);
+	  buzzer_set_period(1000);
 	  state = 4; // returns to state 3 which turns of cpu
 	  break;
 	case 1:
+	  state = 4;
 	  clearScreen(COLOR_WHITE);
 	  fillRectangle(x, y, 60, 60, color[i]);
+	  buzzer_set_period(500);
 	  x = x - 4;
-	  state = 4;
 	  break;
 	case 2:
 	  clearScreen(COLOR_WHITE);
 	  fillRectangle(x, y, 60 ,60, COLOR_GREEN);
+	  buzzer_set_period(1000);
 	  x = x + 4;
 	  state = 4;
 	  break;
 	case 3:
 	  clearScreen(COLOR_WHITE);
+	  buzzer_set_period(0);
 	  state = 4;
 	  break;
 	}
@@ -77,6 +81,7 @@ void main()
       else
 	{
 	  P1OUT &= ~LED;
+	  buzzer_set_period(0);
 	}
       or_sr(8);			/* enable interrupts */
     }
