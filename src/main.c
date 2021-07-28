@@ -14,7 +14,8 @@ short velocity[2] = {3,8}, limits[2] = {screenWidth-35, screenHeight-8};
 int x = 50;
 int y = 50;
 char signed state = 4;
-
+short color[5] = {COLOR_GREEN, COLOR_RED, COLOR_PINK, COLOR_ORANGE, COLOR_YELLOW};
+int i = 0;
 short redrawScreen = 1;
 u_int fontFgColor = COLOR_GREEN;
 
@@ -25,6 +26,8 @@ void wdt_c_handler()
   secCount ++;
   if (secCount == 30) {		/* 4/sec */
     secCount = 0;
+    i++;
+    if(i > 5) i = 0;
     redrawScreen = 1;
   }
 }
@@ -55,7 +58,7 @@ void main()
 	  break;
 	case 1:
 	  clearScreen(COLOR_BLUE);
-	  fillRectangle(x, y, 60, 60, COLOR_GREEN);
+	  fillRectangle(x, y, 60, 60, color[i]);
 	  x = x - 4;
 	  state = 4;
 	  break;
