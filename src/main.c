@@ -15,7 +15,7 @@ short velocity[2] = {3,8}, limits[2] = {screenWidth-35, screenHeight-8};
 int x = 50;
 int y = 50;
 char signed state = 4;
-short color[5] = {COLOR_GREEN, COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_YELLOW};
+short color[5] = {COLOR_GREEN, COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_PURPLE};
 int i = 0;
 short redrawScreen = 1;
 u_int fontFgColor = COLOR_GREEN;
@@ -65,8 +65,8 @@ void main()
 	  x = x - 4;
 	  break;
 	case 2:
-	  clearScreen(COLOR_WHITE);
-	  fillRectangle(x, y, 60 ,60, COLOR_GREEN);
+	  clearScreen(COLOR_YELLOW);
+	  fillRectangle(x, y, 60 ,60, color[i]);
 	  buzzer_set_period(1000);
 	  x = x + 4;
 	  state = 4;
