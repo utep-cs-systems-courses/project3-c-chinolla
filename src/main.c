@@ -14,7 +14,7 @@ short velocity[2] = {3,8}, limits[2] = {screenWidth-35, screenHeight-8};
 int x = 50;
 int y = 50;
 char signed state = 4;
-short color[5] = {COLOR_GREEN, COLOR_RED, COLOR_PINK, COLOR_ORANGE, COLOR_YELLOW};
+short color[5] = {COLOR_GREEN, COLOR_RED, COLOR_BLUE, COLOR_ORANGE, COLOR_YELLOW};
 int i = 0;
 short redrawScreen = 1;
 u_int fontFgColor = COLOR_GREEN;
@@ -44,7 +44,7 @@ void main()
   or_sr(0x8);	              /**< GIE (enable interrupts) */
 
   switch_init();
-  clearScreen(COLOR_BLUE);
+  clearScreen(COLOR_WHITE);
   while (1) {			/* forever */
     if (redrawScreen) {
       redrawScreen = 0;
@@ -57,19 +57,19 @@ void main()
 	  state = 4; // returns to state 3 which turns of cpu
 	  break;
 	case 1:
-	  clearScreen(COLOR_BLUE);
+	  clearScreen(COLOR_WHITE);
 	  fillRectangle(x, y, 60, 60, color[i]);
 	  x = x - 4;
 	  state = 4;
 	  break;
 	case 2:
-	  clearScreen(COLOR_BLUE);
+	  clearScreen(COLOR_WHITE);
 	  fillRectangle(x, y, 60 ,60, COLOR_GREEN);
 	  x = x + 4;
 	  state = 4;
 	  break;
 	case 3:
-	  clearScreen(COLOR_BLUE);
+	  clearScreen(COLOR_WHITE);
 	  state = 4;
 	  break;
 	}
